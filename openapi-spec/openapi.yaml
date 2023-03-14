@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  title: Znet Mobile - OpneAPI 3.0
+  version: 0.0.1
+servers:
+  - url: http://docker-lambda:8080/2015-03-31/functions/function/invocations
+  - url: http://plane:8080
+paths:
+  /api/v1/test:
+    get:
+      parameters:
+        - in: query
+          name: aaa
+          schema:
+            type: string
+          required: true
+        - in: query
+          name: bbb
+          schema:
+            type: string
+          required: true
+      responses:
+        "200":
+          description: OK
+  /api/v1/test2:
+    get:
+      responses:
+        "200":
+          description: OK

@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+
+  http-proxy-middleware:
+    build:
+      context: ./http-proxy-middleware
+      dockerfile: ./Dockerfile
+    container_name: http-proxy-middleware
+    expose:
+      - 4000
+    ports:
+      - "4000:4000"
+    command: npx ts-node app.ts -p 4000 -f openapi.yaml
+    volumes:
+      - ./api/open-api-spec/api-reference.yaml:/app/openapi.yaml
+    networks:
+      - stub
+
+  docker-lambda:
+    build:
+      context: ./api/docker-lambda
+      dockerfile: ./Dockerfile
+      target: runner
+    container_name: docker-lambda
+    tty: true
+    expose:
+      - 8080
+    networks:
+      - stub
+
+  plane:
+    build:
+      context: ./api/plane
+      dockerfile: ./Dockerfile
+      target: plane
+    container_name: plane
+    tty: true
+    expose:
+      - 8080
+    networks:
+      - stub
+
+networks:
+  stub:
+    driver: bridge
