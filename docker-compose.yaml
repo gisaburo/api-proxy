@@ -33,7 +33,6 @@ services:
     build:
       context: ./api/plane
       dockerfile: ./Dockerfile
-      target: plane
     container_name: plane
     tty: true
     expose:
