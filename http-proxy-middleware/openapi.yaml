@@ -1,0 +1,12 @@
+openapi: 3.0.0
+info:
+  title: Example API
+  version: 1.0.0
+servers:
+  - url: https://localhost:8002
+paths:
+  /api/v1/testa:
+    get:
+      responses:
+        "200":
+          description: OK
