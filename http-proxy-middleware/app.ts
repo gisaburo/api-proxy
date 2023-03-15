@@ -62,19 +62,9 @@ for (let i = 0; i < Object.keys(paths).length; i++) {
 }
 
 const setUrlObject = (hostname: string, port: string, pathname: string) => {
-  if (pathname === '/') {
-    if (port === '') {
-      return `http://${hostname}`
-    } else {
-      return `http://${hostname}:${port}`
-    }
-  } else {
-    if (port === '') {
-      return `http://${hostname}${pathname}`
-    } else {
-      return `http://${hostname}:${port}${pathname}`
-    }
-  }
+  const path = pathname.startsWith('/') ? pathname : `/${pathname}`;
+  const url = `http://${hostname}${port ? `:${port}` : ''}${path}`;
+  return url;
 }
 
 const circularReplacer = () => {
@@ -91,14 +81,14 @@ const circularReplacer = () => {
 };
 
 const onProxyReq = (proxyReq: any, req: any, res: any) => {
-  // const cookieHeader = req.headers.cookie;
-  // const cookieRegex = /CognitoIdentityServiceProvider\.[^.]+\.(LastAuthUser)=([^;]+);?/g;
-  // const cookies = cookieHeader.match(cookieRegex)?.join("; ");
+  const cookieHeader = req.headers.cookie;
+  const cookieRegex = /CognitoIdentityServiceProvider\.[^.]+\.(LastAuthUser)=([^;]+);?/g;
+  const cookies = cookieHeader?.match(cookieRegex)?.join("; ") ?? '';
 
   const requestBody = {
-    // headers: {
-    //   Cookie: cookies
-    // },
+    headers: {
+      Cookie: cookies
+    },
     queryStringParameters: req.query
   };
   const bodyData = JSON.stringify(requestBody);

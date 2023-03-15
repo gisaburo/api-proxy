@@ -13,7 +13,7 @@ services:
       - "4000:4000"
     command: npx ts-node app.ts -p 4000 -f openapi.yaml
     volumes:
-      - ./api/open-api-spec/api-reference.yaml:/app/openapi.yaml
+      - ./openapi-spec/openapi.yaml:/app/openapi.yaml
     networks:
       - stub
 
